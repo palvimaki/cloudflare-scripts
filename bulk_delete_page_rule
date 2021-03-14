@@ -1,0 +1,19 @@
+#!/bin/bash
+# bulk delete page rule 
+# reads from text file with zone id and page rule id separated by commas
+# one zone per line
+# use page_rule_properties script first to get page rule id for each zone
+
+while IFS=',' read -r zoneid ruleid; do \
+    echo ""
+    echo "zone id:"
+    echo $zoneid
+    echo "page rule id:"
+    echo $ruleid
+
+    curl -X DELETE "https://api.cloudflare.com/client/v4/zones/${zoneid}/pagerules/${ruleid}" \
+        -H "X-Auth-Email: yourname@example.com" \
+        -H "X-Auth-Key: yourapitoken" \
+        -H "Content-Type: application/json" 
+        
+done < "zoneid_pageruleid.txt"

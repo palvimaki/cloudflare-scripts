@@ -1,0 +1,16 @@
+#!/bin/bash
+#get page rule properties for all zones (domains) in domainzonefile.txt, output to file zoneproperties.json
+
+while IFS=',' read -r zone domain; do \
+    echo "domain:"
+    echo $domain
+    echo "zone:"
+    echo $zone
+ 
+
+    curl -X GET "https://api.cloudflare.com/client/v4/zones/${zone}/pagerules?status=active&order=status&direction=desc&match=all" >> zoneproperties.json\
+        -H "X-Auth-Email: yourname@example.com" \
+        -H "X-Auth-Key: yourapitoken" \
+        -H "Content-Type: application/json"
+
+done < "domainzonefile.txt" 
